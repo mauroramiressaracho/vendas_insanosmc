@@ -6,7 +6,7 @@ import { uid } from "../utils/format";
 
 interface Props {
   defaultOperator: string;
-  onOpened: () => void;
+  onOpened: (session: SessaoCaixa) => void | Promise<void>;
 }
 
 export const OpenCashPage = ({ defaultOperator, onOpened }: Props) => {
@@ -30,7 +30,7 @@ export const OpenCashPage = ({ defaultOperator, onOpened }: Props) => {
       proximoPedido: 1,
     };
     await dbApi.saveSession(session);
-    onOpened();
+    await onOpened(session);
   };
 
   return (

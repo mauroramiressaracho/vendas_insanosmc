@@ -58,6 +58,13 @@ export const App = () => {
     if (ready && !session && (view === "sales" || view === "close")) setView("open");
   }, [ready, session, view]);
 
+  const handleCashOpened = async (openedSession: SessaoCaixa) => {
+    setSession(openedSession);
+    setView("sales");
+    await refresh();
+    setView("sales");
+  };
+
   const activeOrders = useMemo(() => session ? orders.filter((order) => order.sessionId === session.id) : orders, [orders, session]);
 
   if (!ready || !settings) {
@@ -111,7 +118,7 @@ export const App = () => {
       )}
 
       <main className="main-view">
-        {view === "open" && <OpenCashPage defaultOperator={settings.operadorPadrao} onOpened={() => { refresh(); setView("sales"); }} />}
+        {view === "open" && <OpenCashPage defaultOperator={settings.operadorPadrao} onOpened={handleCashOpened} />}
         {view === "sales" && session && (
           <SalesPage
             products={products}

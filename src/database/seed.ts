@@ -11,8 +11,8 @@ export const initialCategories: Categoria[] = [
 const now = new Date().toISOString();
 
 export const initialProducts: Produto[] = [
-  { id: "prod-carne", nome: "Espetinho de Carne", preco: 10, categoriaId: "cat-espetinhos", icone: "🥩", ativo: true, ordem: 1, criadoEm: now },
-  { id: "prod-linguica", nome: "Espetinho de Linguiça", preco: 10, categoriaId: "cat-espetinhos", icone: "🌭", ativo: true, ordem: 2, criadoEm: now },
+  { id: "prod-carne", nome: "Espetinho de Carne", preco: 10, categoriaId: "cat-espetinhos", icone: "🍢", ativo: true, ordem: 1, criadoEm: now },
+  { id: "prod-linguica", nome: "Espetinho de Linguiça", preco: 10, categoriaId: "cat-espetinhos", icone: "🍢", ativo: true, ordem: 2, criadoEm: now },
   { id: "prod-frango", nome: "Espetinho de Frango", preco: 10, categoriaId: "cat-espetinhos", icone: "🍗", ativo: false, ordem: 3, criadoEm: now },
   { id: "prod-kafta", nome: "Kafta", preco: 12, categoriaId: "cat-espetinhos", icone: "🍢", ativo: false, ordem: 4, criadoEm: now },
   { id: "prod-agua", nome: "Água Mineral", preco: 5, categoriaId: "cat-bebidas", icone: "💧", ativo: false, ordem: 1, criadoEm: now },

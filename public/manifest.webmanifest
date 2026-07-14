@@ -1,17 +1,24 @@
 {
-  "name": "Caixa de Vendas Insanos MC",
+  "name": "Caixa de Vendas - Insanos MC",
   "short_name": "Caixa Insanos",
-  "description": "PDV offline para venda rápida em eventos.",
-  "start_url": "/",
-  "scope": "/",
+  "description": "Sistema de vendas offline para eventos do Insanos MC Campo Grande MS - Divisão Norte",
+  "start_url": "/vendas_insanosmc/",
+  "scope": "/vendas_insanosmc/",
   "display": "standalone",
+  "orientation": "any",
   "background_color": "#090909",
   "theme_color": "#090909",
   "icons": [
     {
-      "src": "/icon.svg",
+      "src": "/vendas_insanosmc/icons/icon-192.png",
       "sizes": "192x192",
-      "type": "image/svg+xml",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/vendas_insanosmc/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
       "purpose": "any maskable"
     }
   ]

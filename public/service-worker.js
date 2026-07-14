@@ -1,5 +1,13 @@
-const CACHE_NAME = "caixa-insanos-v2";
-const CORE_ASSETS = ["/", "/index.html", "/manifest.webmanifest", "/icon.svg"];
+const CACHE_NAME = "caixa-insanos-v3";
+const BASE_URL = new URL(self.registration.scope).pathname;
+const CORE_ASSETS = [
+  BASE_URL,
+  `${BASE_URL}index.html`,
+  `${BASE_URL}manifest.webmanifest`,
+  `${BASE_URL}icon.svg`,
+  `${BASE_URL}icons/icon-192.png`,
+  `${BASE_URL}icons/icon-512.png`,
+];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(CORE_ASSETS)));
@@ -18,7 +26,7 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
   if (event.request.mode === "navigate") {
-    event.respondWith(fetch(event.request).catch(() => caches.match("/")));
+    event.respondWith(fetch(event.request).catch(() => caches.match(BASE_URL)));
     return;
   }
   event.respondWith(
@@ -30,7 +38,7 @@ self.addEventListener("fetch", (event) => {
           caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
           return response;
         })
-        .catch(() => caches.match("/"));
+        .catch(() => caches.match(BASE_URL));
     }),
   );
 });

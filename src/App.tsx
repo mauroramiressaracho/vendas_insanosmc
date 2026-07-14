@@ -5,6 +5,7 @@ import { dbApi, seedIfEmpty } from "./database/db";
 import { useClock } from "./hooks/useClock";
 import { useBreakpoint } from "./hooks/useBreakpoint";
 import { useOnlineStatus } from "./hooks/useOnlineStatus";
+import { usePwaInstall } from "./hooks/usePwaInstall";
 import { ClosePage } from "./pages/ClosePage";
 import { DashboardPage } from "./pages/DashboardPage";
 import { OpenCashPage } from "./pages/OpenCashPage";
@@ -28,6 +29,7 @@ export const App = () => {
   const online = useOnlineStatus();
   const clock = useClock();
   const { isMobile } = useBreakpoint();
+  const pwaInstall = usePwaInstall();
 
   const refresh = async () => {
     const [nextProducts, nextCategories, nextOrders, nextSession, nextSessions, nextSettings] = await Promise.all([
@@ -80,7 +82,7 @@ export const App = () => {
   ];
 
   return (
-    <div className="app-shell">
+    <div className={view === "sales" && session ? "app-shell sales-mode" : "app-shell"}>
       <header className="topbar">
         <button className="icon-button" onClick={() => setDrawerOpen((open) => !open)} aria-label="Menu">
           {drawerOpen ? <X /> : <Menu />}
@@ -114,7 +116,20 @@ export const App = () => {
               </button>
             );
           })}
+          {(pwaInstall.canInstall || pwaInstall.showInstructions) && (
+            <button onClick={() => { pwaInstall.install(); setDrawerOpen(false); }}>
+              Instalar aplicativo
+            </button>
+          )}
         </nav>
+      )}
+
+      {(pwaInstall.canInstall || pwaInstall.showInstructions || pwaInstall.message) && (
+        <div className="pwa-banner">
+          <span>{pwaInstall.message || "Instale o Caixa Insanos para usar em tela cheia e com acesso rápido."}</span>
+          {!pwaInstall.message && <button onClick={pwaInstall.install}>Instalar</button>}
+          {!pwaInstall.message && <button onClick={pwaInstall.dismiss}>Agora não</button>}
+        </div>
       )}
 
       <main className="main-view">

@@ -5,7 +5,7 @@ import "./styles/global.css";
 
 if ("serviceWorker" in navigator && import.meta.env.PROD) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/service-worker.js").catch(console.error);
+    navigator.serviceWorker.register(`${import.meta.env.BASE_URL}service-worker.js`).catch(console.error);
   });
 }
 

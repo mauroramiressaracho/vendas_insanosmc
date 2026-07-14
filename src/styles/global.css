@@ -324,3 +324,358 @@ html, body, #root { min-height: 100dvh; overflow-x: hidden; }
   .chart-card { height: 300px; }
   .metric-card { min-height: 96px; }
 }
+
+/* Operational sales screen: tablet Android landscape first. */
+.sales-mode {
+  height: 100dvh;
+  max-height: 100dvh;
+  min-height: 100vh;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  overflow: hidden;
+}
+
+.sales-mode .main-view,
+.sales-mode .sales-layout,
+.sales-mode .products-panel,
+.sales-mode .order-panel,
+.sales-mode .category-rail {
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.sales-mode .sales-layout {
+  height: 100%;
+  grid-template-columns: minmax(280px, 30%) minmax(0, 1fr) minmax(110px, 140px);
+  align-items: stretch;
+}
+
+.sales-mode .order-panel {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto auto auto auto;
+  gap: 8px;
+  position: static;
+  max-height: none;
+}
+
+.sales-mode .cart-table,
+.sales-mode .product-grid,
+.sales-mode .category-rail {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.sales-mode .products-panel {
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+.sales-mode .product-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-content: start;
+  padding-right: 4px;
+}
+
+.sales-mode .category-rail {
+  display: grid;
+  grid-auto-rows: minmax(66px, 1fr);
+  gap: 8px;
+}
+
+.sales-mode .category-rail button {
+  min-height: 0;
+  padding: 8px 6px;
+}
+
+.pwa-banner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 8px;
+  align-items: center;
+  padding: 8px 12px;
+  border: 1px solid #3a3a3a;
+  border-radius: 10px;
+  background: #121212;
+  color: #fff;
+}
+
+.pwa-banner button {
+  min-height: 40px;
+  padding: 0 12px;
+  font-weight: 900;
+}
+
+.sales-mode .pwa-banner {
+  display: none;
+}
+
+@media (orientation: landscape) and (max-height: 800px) {
+  .sales-mode {
+    padding: 8px;
+    gap: 8px;
+  }
+  .sales-mode .topbar {
+    min-height: 78px;
+    grid-template-columns: 54px 58px minmax(260px, 1fr) auto;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: 10px;
+  }
+  .sales-mode .icon-button {
+    width: 50px;
+    min-height: 50px;
+  }
+  .sales-mode .brand-mark {
+    width: 56px;
+    height: 56px;
+    font-size: 18px;
+  }
+  .sales-mode .title-block h1 {
+    font-size: clamp(28px, 3.6vw, 44px);
+    line-height: .9;
+  }
+  .sales-mode .title-block strong {
+    font-size: clamp(14px, 1.7vw, 22px);
+    letter-spacing: 2px;
+  }
+  .sales-mode .title-block span {
+    font-size: 12px;
+    letter-spacing: 4px;
+  }
+  .sales-mode .status-top {
+    display: flex;
+    grid-column: auto;
+    gap: 8px;
+    font-size: 12px;
+  }
+  .sales-mode .status-top span {
+    padding-left: 8px;
+  }
+  .sales-mode .bottombar {
+    min-height: 38px;
+    padding: 6px 10px;
+    gap: 8px;
+    font-size: 13px;
+  }
+  .sales-mode .bottombar small {
+    display: inline;
+    font-size: 11px;
+  }
+  .sales-mode .panel {
+    padding: 8px;
+  }
+  .sales-mode .order-head {
+    padding: 8px;
+  }
+  .sales-mode .order-head strong {
+    font-size: 30px;
+  }
+  .sales-mode .cart-row {
+    padding: 7px;
+    font-size: 12px;
+    gap: 6px;
+    grid-template-columns: minmax(90px,1.4fr) 78px 64px 72px 28px;
+  }
+  .sales-mode .qty {
+    grid-template-columns: 26px 1fr 26px;
+  }
+  .sales-mode .qty button,
+  .sales-mode .ghost {
+    min-height: 26px;
+    width: 26px;
+    height: 26px;
+  }
+  .sales-mode .total-line {
+    padding: 8px;
+  }
+  .sales-mode .total-line strong {
+    font-size: 30px;
+  }
+  .sales-mode .order-panel h3 {
+    margin: 0;
+    font-size: 13px;
+  }
+  .sales-mode .payment-grid {
+    gap: 6px;
+  }
+  .sales-mode .payment-grid button {
+    min-height: 48px;
+    font-size: 12px;
+  }
+  .sales-mode .order-actions {
+    gap: 6px;
+  }
+  .sales-mode .order-actions button {
+    min-height: 42px;
+    font-size: 12px;
+  }
+  .sales-mode .primary-action {
+    min-height: 56px;
+    font-size: 16px;
+  }
+  .sales-mode .search-field input {
+    min-height: 48px;
+    font-size: 15px;
+  }
+  .sales-mode .product-grid {
+    gap: 8px;
+  }
+  .sales-mode .product-card {
+    min-height: clamp(118px, 21vh, 154px);
+    padding: 8px;
+  }
+  .sales-mode .product-icon {
+    height: 40px;
+    font-size: 32px;
+  }
+  .sales-mode .product-icon img {
+    max-height: 40px;
+  }
+  .sales-mode .product-card strong {
+    font-size: clamp(12px, 1.4vw, 15px);
+    line-height: 1.08;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .sales-mode .product-card small {
+    display: none;
+  }
+  .sales-mode .product-card span:last-child {
+    font-size: 16px;
+  }
+  .sales-mode .category-rail button {
+    gap: 4px;
+    font-size: 12px;
+  }
+  .sales-mode .category-rail svg {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 650px) {
+  .sales-mode {
+    padding: 6px;
+    gap: 6px;
+  }
+  .sales-mode .topbar {
+    min-height: 64px;
+    grid-template-columns: 46px 48px minmax(220px, 1fr) auto;
+    padding: 6px 8px;
+  }
+  .sales-mode .icon-button {
+    width: 42px;
+    min-height: 42px;
+  }
+  .sales-mode .brand-mark {
+    width: 46px;
+    height: 46px;
+    border-width: 2px;
+    font-size: 16px;
+  }
+  .sales-mode .title-block h1 {
+    font-size: clamp(24px, 3.2vw, 34px);
+  }
+  .sales-mode .title-block strong {
+    font-size: clamp(12px, 1.5vw, 17px);
+    letter-spacing: 2px;
+  }
+  .sales-mode .title-block span {
+    font-size: 10px;
+    letter-spacing: 3px;
+  }
+  .sales-mode .status-top {
+    font-size: 11px;
+  }
+  .sales-mode .bottombar {
+    min-height: 34px;
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+  .sales-mode .panel {
+    padding: 6px;
+  }
+  .sales-mode .sales-layout {
+    gap: 8px;
+  }
+  .sales-mode .order-panel {
+    gap: 6px;
+  }
+  .sales-mode .order-head {
+    padding: 6px;
+  }
+  .sales-mode .order-head svg {
+    width: 24px;
+    height: 24px;
+  }
+  .sales-mode .order-head strong {
+    font-size: 25px;
+  }
+  .sales-mode .cart-row {
+    padding: 5px 6px;
+    grid-template-columns: minmax(80px,1.4fr) 70px 58px 66px 26px;
+  }
+  .sales-mode .total-line {
+    padding: 6px;
+  }
+  .sales-mode .total-line strong {
+    font-size: 25px;
+  }
+  .sales-mode .payment-grid button {
+    min-height: 40px;
+  }
+  .sales-mode .order-actions button {
+    min-height: 36px;
+  }
+  .sales-mode .primary-action {
+    min-height: 46px;
+    font-size: 14px;
+  }
+  .sales-mode .search-field input {
+    min-height: 42px;
+  }
+  .sales-mode .product-card {
+    min-height: clamp(96px, 20vh, 124px);
+    gap: 3px;
+  }
+  .sales-mode .product-icon {
+    height: 30px;
+    font-size: 26px;
+  }
+  .sales-mode .product-icon img {
+    max-height: 30px;
+  }
+  .sales-mode .product-card strong {
+    font-size: 12px;
+  }
+  .sales-mode .product-card span:last-child {
+    font-size: 14px;
+  }
+  .sales-mode .category-rail {
+    gap: 6px;
+    grid-auto-rows: minmax(54px, 1fr);
+  }
+  .sales-mode .category-rail button {
+    font-size: 11px;
+  }
+  .sales-mode .category-rail svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@media (orientation: landscape) and (min-width: 768px) and (max-width: 1199px) {
+  .sales-mode .sales-layout {
+    grid-template-columns: minmax(280px, 30%) minmax(0, 1fr) minmax(110px, 140px);
+  }
+  .sales-mode .category-rail {
+    order: initial;
+    display: grid;
+    overflow-x: hidden;
+  }
+  .sales-mode .category-rail button {
+    min-width: 0;
+  }
+}

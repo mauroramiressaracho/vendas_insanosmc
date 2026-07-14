@@ -1001,4 +1001,143 @@ html, body, #root { min-height: 100dvh; overflow-x: hidden; }
     min-height: 44px;
     font-size: 13px;
   }
+
+  .sales-mode .cart-drawer {
+    height: min(88dvh, 680px);
+    grid-template-rows: auto minmax(0, 1fr);
+    padding: 10px;
+  }
+
+  .sales-mode .cart-drawer > header {
+    min-height: 48px;
+    padding-bottom: 8px;
+  }
+
+  .sales-mode .cart-drawer > header h2 {
+    font-size: 21px;
+    line-height: 1.05;
+  }
+
+  .sales-mode .cart-drawer > header .icon-button {
+    width: 42px;
+    min-height: 42px;
+  }
+
+  .sales-mode .mobile-checkout {
+    min-height: 0;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto auto auto;
+    gap: 9px;
+    padding: 4px 2px 0;
+    overflow: hidden;
+  }
+
+  .sales-mode .mobile-checkout .order-head {
+    padding: 10px;
+  }
+
+  .sales-mode .mobile-checkout .order-head strong {
+    font-size: 32px;
+  }
+
+  .sales-mode .mobile-checkout .cart-table {
+    min-height: 0;
+    max-height: none;
+    overflow-y: auto;
+  }
+
+  .sales-mode .mobile-cart-row {
+    min-height: 68px;
+    grid-template-columns: minmax(0, 1fr) 104px 76px 34px;
+    gap: 6px;
+    padding: 8px;
+    align-items: center;
+  }
+
+  .sales-mode .mobile-cart-row > span:first-child {
+    font-weight: 900;
+    overflow-wrap: anywhere;
+  }
+
+  .sales-mode .mobile-cart-row > span:nth-child(3) {
+    display: block;
+    color: #fff;
+    font-weight: 950;
+    text-align: right;
+  }
+
+  .sales-mode .mobile-checkout .total-line {
+    padding: 10px;
+  }
+
+  .sales-mode .mobile-checkout .total-line strong {
+    font-size: 28px;
+  }
+
+  .sales-mode .mobile-checkout-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .sales-mode .mobile-checkout-actions button {
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+
+  .sales-mode .mobile-checkout .primary-action {
+    min-height: 58px;
+    font-size: 17px;
+  }
+
+  .sales-mode .mobile-checkout-payment {
+    grid-template-rows: auto auto auto auto minmax(58px, auto);
+    align-content: start;
+  }
+
+  .sales-mode .mobile-step-summary {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 8px;
+    padding: 10px;
+    border: 1px solid #333;
+    border-radius: 8px;
+    background: #111;
+  }
+
+  .sales-mode .mobile-step-summary button {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+
+  .sales-mode .mobile-step-summary strong {
+    font-size: 24px;
+    white-space: nowrap;
+  }
+
+  .sales-mode .mobile-checkout h3 {
+    margin: 0;
+    font-size: 18px;
+  }
+
+  .sales-mode .mobile-checkout .payment-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .sales-mode .mobile-checkout .payment-grid button {
+    min-height: 58px;
+    font-size: 15px;
+  }
 }

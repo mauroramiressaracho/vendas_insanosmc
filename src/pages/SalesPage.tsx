@@ -1,5 +1,5 @@
 import { useMemo, useState, type ElementType } from "react";
-import { Beef, Beer, CreditCard, DollarSign, Grid2X2, Minus, Plus, Search, Trash2, Users, WalletCards, X } from "lucide-react";
+import { Beef, Beer, CreditCard, DollarSign, Grid2X2, Minus, Plus, Search, ShoppingCart, Trash2, Users, WalletCards, X } from "lucide-react";
 import { CartDrawer } from "../components/cart/CartDrawer";
 import { MobileCartBar } from "../components/cart/MobileCartBar";
 import { dbApi } from "../database/db";
@@ -24,6 +24,8 @@ const categoryIcons: Record<string, ElementType> = {
   more: Grid2X2,
 };
 
+type MobileCheckoutStep = "cart" | "payment";
+
 export const SalesPage = ({ products, categories, session, settings, onChanged }: Props) => {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [payment, setPayment] = useState<FormaPagamento | undefined>();
@@ -31,6 +33,7 @@ export const SalesPage = ({ products, categories, session, settings, onChanged }
   const [query, setQuery] = useState("");
   const [message, setMessage] = useState("");
   const [cartOpen, setCartOpen] = useState(false);
+  const [mobileCheckoutStep, setMobileCheckoutStep] = useState<MobileCheckoutStep>("cart");
   const { isMobile, isTablet } = useBreakpoint();
   const orientation = useOrientation();
   const compactCart = isMobile || (isTablet && orientation === "portrait");
@@ -82,7 +85,22 @@ export const SalesPage = ({ products, categories, session, settings, onChanged }
       setCart([]);
       setPayment(undefined);
       setMessage("");
+      setMobileCheckoutStep("cart");
     }
+  };
+
+  const openCart = () => {
+    setMobileCheckoutStep("cart");
+    setCartOpen(true);
+  };
+
+  const openPayment = () => {
+    if (cart.length === 0) {
+      setMessage("Adicione pelo menos um produto.");
+      return;
+    }
+    setMobileCheckoutStep("payment");
+    setCartOpen(true);
   };
 
   const finish = async () => {
@@ -92,6 +110,7 @@ export const SalesPage = ({ products, categories, session, settings, onChanged }
     }
     if (!payment) {
       setMessage("Selecione a forma de pagamento.");
+      setMobileCheckoutStep("payment");
       setCartOpen(true);
       return;
     }
@@ -116,6 +135,7 @@ export const SalesPage = ({ products, categories, session, settings, onChanged }
     }
     setCart([]);
     setPayment(undefined);
+    setMobileCheckoutStep("cart");
     setCartOpen(false);
     onChanged();
   };
@@ -159,6 +179,58 @@ export const SalesPage = ({ products, categories, session, settings, onChanged }
     </aside>
   );
 
+  const mobileCartPanel = (
+    <section className="mobile-checkout mobile-checkout-cart">
+      <div className="order-head">
+        <Grid2X2 size={34} />
+        <div><span>Pedido</span><strong>#{orderNumber(session.proximoPedido)}</strong></div>
+      </div>
+      <div className="cart-table">
+        {cart.length === 0 && <p className="empty">Toque nos produtos para montar o pedido.</p>}
+        {cart.map((item) => (
+          <div className="cart-row mobile-cart-row" key={item.productId}>
+            <span>{item.nome}</span>
+            <span className="qty">
+              <button onClick={() => changeQty(item.productId, -1)}><Minus size={16} /></button>
+              {item.quantidade}
+              <button onClick={() => changeQty(item.productId, 1)}><Plus size={16} /></button>
+            </span>
+            <span>{money(item.subtotal)}</span>
+            <button className="ghost" onClick={() => changeQty(item.productId, -item.quantidade)}><X size={16} /></button>
+          </div>
+        ))}
+      </div>
+      <div className="total-line"><span>Total</span><strong>{money(total)}</strong></div>
+      {message && <p className={message.includes("Adicione") || message.includes("Selecione") ? "message danger" : "message ok"}>{message}</p>}
+      <div className="mobile-checkout-actions">
+        <button onClick={() => setCartOpen(false)}>Adicionar mais</button>
+        <button onClick={clearCart}><Trash2 /> Limpar</button>
+      </div>
+      <button className="primary-action" onClick={openPayment}><CreditCard size={26} /> Ir para pagamento</button>
+    </section>
+  );
+
+  const mobilePaymentPanel = (
+    <section className="mobile-checkout mobile-checkout-payment">
+      <div className="mobile-step-summary">
+        <button onClick={() => setMobileCheckoutStep("cart")}><ShoppingCart /> Conferir itens</button>
+        <strong>{money(total)}</strong>
+      </div>
+      <h3>Forma de pagamento</h3>
+      <div className="payment-grid">
+        <button className={payment === "dinheiro" ? "selected money" : "money"} onClick={() => setPayment("dinheiro")}><DollarSign /> Dinheiro</button>
+        <button className={payment === "pix" ? "selected pix" : "pix"} onClick={() => setPayment("pix")}><WalletCards /> Pix</button>
+        <button className={payment === "cartao" ? "selected card" : "card"} onClick={() => setPayment("cartao")}><CreditCard /> Cartão</button>
+      </div>
+      {message && <p className={message.includes("Adicione") || message.includes("Selecione") ? "message danger" : "message ok"}>{message}</p>}
+      <div className="mobile-checkout-actions">
+        <button onClick={clearCart}><Trash2 /> Limpar</button>
+        <button onClick={() => confirm("Cancelar o pedido atual?") && clearCart()}><X /> Cancelar</button>
+      </div>
+      <button className="primary-action" onClick={finish}><CreditCard size={28} /> FINALIZAR E IMPRIMIR</button>
+    </section>
+  );
+
   return (
     <section className={compactCart ? "sales-layout compact-sale" : "sales-layout"}>
       {!compactCart && orderPanel}
@@ -188,9 +260,13 @@ export const SalesPage = ({ products, categories, session, settings, onChanged }
 
       {compactCart && (
         <>
-          <MobileCartBar itemCount={itemCount} total={total} onOpen={() => setCartOpen(true)} onFinish={finish} />
-          <CartDrawer open={cartOpen} title={`Pedido #${orderNumber(session.proximoPedido)}`} onClose={() => setCartOpen(false)}>
-            {orderPanel}
+          <MobileCartBar itemCount={itemCount} total={total} onOpen={openCart} onFinish={openPayment} />
+          <CartDrawer
+            open={cartOpen}
+            title={mobileCheckoutStep === "cart" ? `Conferir pedido #${orderNumber(session.proximoPedido)}` : "Pagamento"}
+            onClose={() => setCartOpen(false)}
+          >
+            {mobileCheckoutStep === "cart" ? mobileCartPanel : mobilePaymentPanel}
           </CartDrawer>
         </>
       )}

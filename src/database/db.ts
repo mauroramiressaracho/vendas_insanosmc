@@ -14,17 +14,37 @@ let dbPromise: Promise<IDBPDatabase<CaixaDB>> | null = null;
 
 export const getDb = () => {
   if (!dbPromise) {
-    dbPromise = openDB<CaixaDB>("caixa-insanos-db", 1, {
-      upgrade(db) {
-        const products = db.createObjectStore("products", { keyPath: "id" });
-        products.createIndex("by_category", "categoriaId");
-        db.createObjectStore("categories", { keyPath: "id" });
-        const orders = db.createObjectStore("orders", { keyPath: "id" });
-        orders.createIndex("by_session", "sessionId");
-        orders.createIndex("by_created", "criadoEm");
-        const sessions = db.createObjectStore("cashSessions", { keyPath: "id" });
-        sessions.createIndex("by_status", "status");
-        db.createObjectStore("settings", { keyPath: "id" });
+    dbPromise = openDB<CaixaDB>("caixa-insanos-db", 2, {
+      async upgrade(db, oldVersion, _newVersion, transaction) {
+        if (oldVersion < 1) {
+          const products = db.createObjectStore("products", { keyPath: "id" });
+          products.createIndex("by_category", "categoriaId");
+          db.createObjectStore("categories", { keyPath: "id" });
+          const orders = db.createObjectStore("orders", { keyPath: "id" });
+          orders.createIndex("by_session", "sessionId");
+          orders.createIndex("by_created", "criadoEm");
+          const sessions = db.createObjectStore("cashSessions", { keyPath: "id" });
+          sessions.createIndex("by_status", "status");
+          db.createObjectStore("settings", { keyPath: "id" });
+        }
+
+        if (oldVersion < 2) {
+          const products = transaction.objectStore("products");
+          let cursor = await products.openCursor();
+          while (cursor) {
+            const product = cursor.value;
+            const isCarne = product.id === "prod-carne";
+            const isLinguica = product.id === "prod-linguica";
+            const migratedProduct: Produto = {
+              ...product,
+              ativo: isCarne || isLinguica,
+              ...(isCarne ? { nome: "Espetinho de Carne", preco: 10, ordem: 1, categoriaId: "cat-espetinhos" } : {}),
+              ...(isLinguica ? { nome: "Espetinho de Linguiça", preco: 10, ordem: 2, categoriaId: "cat-espetinhos" } : {}),
+            };
+            await cursor.update(migratedProduct);
+            cursor = await cursor.continue();
+          }
+        }
       },
     });
   }

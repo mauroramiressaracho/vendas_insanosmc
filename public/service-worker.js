@@ -1,4 +1,4 @@
-const CACHE_NAME = "caixa-insanos-v3";
+const CACHE_NAME = "caixa-insanos-v4";
 const BASE_URL = new URL(self.registration.scope).pathname;
 const CORE_ASSETS = [
   BASE_URL,

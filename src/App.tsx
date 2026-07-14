@@ -118,13 +118,13 @@ export const App = () => {
           })}
           {(pwaInstall.canInstall || pwaInstall.showInstructions) && (
             <button onClick={() => { pwaInstall.install(); setDrawerOpen(false); }}>
-              Instalar aplicativo
+              {pwaInstall.canInstall ? "Instalar aplicativo" : "Como instalar"}
             </button>
           )}
         </nav>
       )}
 
-      {(pwaInstall.canInstall || pwaInstall.showInstructions || pwaInstall.message) && (
+      {(pwaInstall.canInstall || pwaInstall.message) && (
         <div className="pwa-banner">
           <span>{pwaInstall.message || "Instale o Caixa Insanos para usar em tela cheia e com acesso rápido."}</span>
           {!pwaInstall.message && <button onClick={pwaInstall.install}>Instalar</button>}

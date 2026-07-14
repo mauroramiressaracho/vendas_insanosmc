@@ -8,6 +8,8 @@
   "orientation": "any",
   "background_color": "#090909",
   "theme_color": "#090909",
+  "categories": ["business", "food", "utilities"],
+  "lang": "pt-BR",
   "icons": [
     {
       "src": "./icons/icon-192.png",

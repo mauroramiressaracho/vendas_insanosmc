@@ -81,8 +81,10 @@ export const App = () => {
     { id: "settings" as const, label: "Configurações", icon: Settings },
   ];
 
+  const shellMode = view === "sales" && session ? "sales-mode" : view === "open" ? "open-mode" : "";
+
   return (
-    <div className={view === "sales" && session ? "app-shell sales-mode" : "app-shell"}>
+    <div className={shellMode ? `app-shell ${shellMode}` : "app-shell"}>
       <header className="topbar">
         <button className="icon-button" onClick={() => setDrawerOpen((open) => !open)} aria-label="Menu">
           {drawerOpen ? <X /> : <Menu />}

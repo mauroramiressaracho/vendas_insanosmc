@@ -409,6 +409,185 @@ html, body, #root { min-height: 100dvh; overflow-x: hidden; }
   display: none;
 }
 
+.open-mode {
+  height: 100dvh;
+  max-height: 100dvh;
+  min-height: 100vh;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  overflow: hidden;
+}
+
+.open-mode .pwa-banner {
+  display: none;
+}
+
+.open-mode .main-view {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.open-mode .open-screen {
+  min-height: 0;
+  height: 100%;
+  padding: 12px;
+  overflow: hidden;
+  place-items: center;
+}
+
+.open-mode .open-card {
+  width: min(520px, 100%);
+  max-height: 100%;
+  overflow: auto;
+  gap: 10px;
+  padding: 18px;
+}
+
+.open-mode .open-card .brand-mark.large {
+  width: 78px;
+  height: 78px;
+  margin-bottom: 4px;
+  font-size: 26px;
+}
+
+.open-mode .open-card h1 {
+  font-size: clamp(28px, 3vw, 36px);
+  line-height: 1;
+}
+
+.open-mode .open-card label {
+  gap: 5px;
+}
+
+.open-mode .open-card input {
+  min-height: 44px;
+}
+
+.open-mode .open-card .primary-action {
+  min-height: 58px;
+}
+
+@media (orientation: landscape) and (max-height: 800px) {
+  .open-mode {
+    padding: 8px;
+    gap: 8px;
+  }
+  .open-mode .topbar {
+    min-height: 78px;
+    grid-template-columns: 54px 58px minmax(260px, 1fr) auto;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: 10px;
+  }
+  .open-mode .icon-button {
+    width: 50px;
+    min-height: 50px;
+  }
+  .open-mode .brand-mark {
+    width: 56px;
+    height: 56px;
+    font-size: 18px;
+  }
+  .open-mode .title-block h1 {
+    font-size: clamp(28px, 3.6vw, 44px);
+    line-height: .9;
+  }
+  .open-mode .title-block strong {
+    font-size: clamp(14px, 1.7vw, 22px);
+    letter-spacing: 2px;
+  }
+  .open-mode .title-block span {
+    font-size: 12px;
+    letter-spacing: 4px;
+  }
+  .open-mode .status-top {
+    display: flex;
+    grid-column: auto;
+    gap: 8px;
+    font-size: 12px;
+  }
+  .open-mode .status-top span {
+    padding-left: 8px;
+  }
+  .open-mode .bottombar {
+    min-height: 38px;
+    padding: 6px 10px;
+    gap: 8px;
+    font-size: 13px;
+  }
+  .open-mode .bottombar small {
+    display: inline;
+    font-size: 11px;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 650px) {
+  .open-mode {
+    padding: 6px;
+    gap: 6px;
+  }
+  .open-mode .topbar {
+    min-height: 64px;
+    grid-template-columns: 46px 48px minmax(220px, 1fr) auto;
+    padding: 6px 8px;
+  }
+  .open-mode .icon-button {
+    width: 42px;
+    min-height: 42px;
+  }
+  .open-mode .brand-mark {
+    width: 46px;
+    height: 46px;
+    border-width: 2px;
+    font-size: 16px;
+  }
+  .open-mode .title-block h1 {
+    font-size: clamp(24px, 3.2vw, 34px);
+  }
+  .open-mode .title-block strong {
+    font-size: clamp(12px, 1.5vw, 17px);
+    letter-spacing: 2px;
+  }
+  .open-mode .title-block span {
+    font-size: 10px;
+    letter-spacing: 3px;
+  }
+  .open-mode .status-top {
+    font-size: 11px;
+  }
+  .open-mode .bottombar {
+    min-height: 34px;
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+  .open-mode .open-screen {
+    padding: 6px;
+  }
+  .open-mode .open-card {
+    width: min(480px, 100%);
+    padding: 12px 16px;
+    gap: 7px;
+  }
+  .open-mode .open-card .brand-mark.large {
+    width: 58px;
+    height: 58px;
+    font-size: 20px;
+  }
+  .open-mode .open-card h1 {
+    font-size: 26px;
+  }
+  .open-mode .open-card strong,
+  .open-mode .open-card span {
+    font-size: 13px;
+  }
+  .open-mode .open-card input {
+    min-height: 38px;
+  }
+  .open-mode .open-card .primary-action {
+    min-height: 48px;
+    font-size: 18px;
+  }
+}
+
 @media (orientation: landscape) and (max-height: 800px) {
   .sales-mode {
     padding: 8px;

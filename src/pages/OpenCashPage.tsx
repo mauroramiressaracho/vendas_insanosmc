@@ -40,7 +40,7 @@ export const OpenCashPage = ({ defaultOperator, onOpened }: Props) => {
         <h1>CAIXA DE VENDAS</h1>
         <strong>INSANOS MC CAMPO GRANDE MS</strong>
         <span>DIVISÃO NORTE</span>
-        <label>Operador<input value={operador} onChange={(event) => setOperador(event.target.value)} /></label>
+        <label>Operador<input required autoFocus placeholder="Digite o nome do operador" value={operador} onChange={(event) => setOperador(event.target.value)} /></label>
         <label>Valor inicial em dinheiro<input type="number" min="0" step="0.01" value={valorInicial} onChange={(event) => setValorInicial(event.target.value)} /></label>
         <label>Observação<input value={observacao} onChange={(event) => setObservacao(event.target.value)} /></label>
         {error && <p className="message danger">{error}</p>}

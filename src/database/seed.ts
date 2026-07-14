@@ -33,7 +33,7 @@ export const defaultSettings: Configuracao = {
   nomeEvento: "INSANOS MC CAMPO GRANDE MS",
   subtitulo: "DIVISÃO NORTE",
   mensagemComanda: "OBRIGADO!",
-  operadorPadrao: "Mauro",
+  operadorPadrao: "",
   impressaoAtivada: true,
   larguraMm: 58,
   vias: 1,

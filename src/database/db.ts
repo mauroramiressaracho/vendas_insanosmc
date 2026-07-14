@@ -14,7 +14,7 @@ let dbPromise: Promise<IDBPDatabase<CaixaDB>> | null = null;
 
 export const getDb = () => {
   if (!dbPromise) {
-    dbPromise = openDB<CaixaDB>("caixa-insanos-db", 3, {
+    dbPromise = openDB<CaixaDB>("caixa-insanos-db", 4, {
       async upgrade(db, oldVersion, _newVersion, transaction) {
         if (oldVersion < 1) {
           const products = db.createObjectStore("products", { keyPath: "id" });
@@ -52,6 +52,13 @@ export const getDb = () => {
           const linguica = await products.get("prod-linguica");
           if (carne) await products.put({ ...carne, icone: "🍢" });
           if (linguica) await products.put({ ...linguica, icone: "🍢" });
+        }
+        if (oldVersion < 4) {
+          const settingsStore = transaction.objectStore("settings");
+          const settings = await settingsStore.get("default");
+          if (settings?.operadorPadrao.trim().toLowerCase() === "mauro") {
+            await settingsStore.put({ ...settings, operadorPadrao: "" });
+          }
         }
       },
     });

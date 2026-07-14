@@ -37,6 +37,7 @@ svg { flex: 0 0 auto; }
 .title-block span { display: block; color: #fff; font-weight: 900; letter-spacing: 5px; }
 .status-top { display: flex; align-items: center; gap: 18px; color: var(--text-soft); }
 .status-top span { display: grid; gap: 3px; border-left: 1px solid #555; padding-left: 16px; white-space: nowrap; }
+.status-top small { color: var(--text-soft); font-weight: 600; }
 .status-top strong { color: #fff; text-transform: uppercase; }
 .ok { color: #63d64d !important; }
 .danger { color: #ff433f !important; }
@@ -1139,5 +1140,82 @@ html, body, #root { min-height: 100dvh; overflow-x: hidden; }
   .sales-mode .mobile-checkout .payment-grid button {
     min-height: 58px;
     font-size: 15px;
+  }
+}
+
+@media (max-width: 767px) {
+  .app-shell:not(.sales-mode) .topbar {
+    grid-template-columns: 48px minmax(0, 1fr);
+    padding: 7px;
+    gap: 7px;
+  }
+
+  .app-shell:not(.sales-mode) .title-block {
+    min-width: 0;
+  }
+
+  .app-shell:not(.sales-mode) .title-block h1 {
+    font-size: 21px;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .app-shell:not(.sales-mode) .title-block strong {
+    font-size: 12px;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .app-shell:not(.sales-mode) .title-block span {
+    font-size: 11px;
+    letter-spacing: 1px;
+  }
+
+  .app-shell:not(.sales-mode) .status-top {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 3px;
+    font-size: 10px;
+  }
+
+  .app-shell:not(.sales-mode) .status-top span {
+    min-width: 0;
+    display: grid;
+    align-content: center;
+    gap: 1px;
+    min-height: 30px;
+    padding: 4px 3px;
+    border-left: 0;
+    border: 1px solid #282828;
+    border-radius: 5px;
+    background: #101010;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .app-shell:not(.sales-mode) .status-top small,
+  .app-shell:not(.sales-mode) .status-top strong {
+    display: block;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.05;
+  }
+
+  .app-shell:not(.sales-mode) .status-top small {
+    font-size: 9px;
+    font-weight: 700;
+  }
+
+  .app-shell:not(.sales-mode) .status-top strong {
+    font-size: 10px;
+  }
+
+  .app-shell:not(.sales-mode) .status-top .icon-button {
+    display: none;
   }
 }

@@ -98,10 +98,10 @@ export const App = () => {
           <span>{settings.subtitulo}</span>
         </div>
         <div className="status-top">
-          <span>Operador <strong>{session?.operador ?? "-"}</strong></span>
-          <span>Hora <strong>{clock}</strong></span>
-          <span>Caixa <strong className={session ? "ok" : "danger"}>{session ? "Aberto" : "Fechado"}</strong></span>
-          <span>Impressora <strong className={settings.impressaoAtivada ? "ok" : "danger"}>{settings.impressaoAtivada ? "Configurada" : "Desligada"}</strong></span>
+          <span><small>Operador</small><strong>{session?.operador ?? "-"}</strong></span>
+          <span><small>Hora</small><strong>{clock}</strong></span>
+          <span><small>Caixa</small><strong className={session ? "ok" : "danger"}>{session ? "Aberto" : "Fechado"}</strong></span>
+          <span><small>Impressora</small><strong className={settings.impressaoAtivada ? "ok" : "danger"}>{settings.impressaoAtivada ? "Configurada" : "Desligada"}</strong></span>
           <button className="icon-button" onClick={() => setView("settings")} aria-label="Configurações">
             <Settings />
           </button>

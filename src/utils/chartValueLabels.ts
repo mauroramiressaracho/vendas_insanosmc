@@ -1,25 +1,31 @@
 import type { Chart, Plugin } from "chart.js";
 
 type Formatter = (value: number, index: number, chart: Chart) => string;
+interface ValueLabelOptions {
+  formatter?: Formatter;
+  color?: string;
+  strokeColor?: string;
+  backgroundColor?: string;
+  font?: string;
+}
 
-const getFormatter = (chart: Chart): Formatter => {
-  const plugins = chart.options.plugins as { valueLabels?: { formatter?: Formatter } } | undefined;
-  return plugins?.valueLabels?.formatter ?? ((value) => String(value));
-};
+const getOptions = (chart: Chart): ValueLabelOptions =>
+  ((chart.options.plugins as { valueLabels?: ValueLabelOptions } | undefined)?.valueLabels ?? {});
 
 export const chartValueLabels: Plugin = {
   id: "valueLabels",
   afterDatasetsDraw(chart) {
     try {
       const { ctx } = chart;
-      const formatter = getFormatter(chart);
+      const options = getOptions(chart);
+      const formatter = options.formatter ?? ((value) => String(value));
 
       ctx.save();
-      ctx.font = "700 11px Arial, sans-serif";
+      ctx.font = options.font ?? "700 11px Arial, sans-serif";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
-      ctx.fillStyle = "#ffffff";
-      ctx.strokeStyle = "rgba(0,0,0,.72)";
+      ctx.fillStyle = options.color ?? "#ffffff";
+      ctx.strokeStyle = options.strokeColor ?? "rgba(0,0,0,.72)";
       ctx.lineWidth = 3;
 
       chart.data.datasets.forEach((dataset, datasetIndex) => {
@@ -38,10 +44,21 @@ export const chartValueLabels: Plugin = {
           const isHorizontal = chart.options.indexAxis === "y";
           const x = isHorizontal ? Math.min(position.x + 34, chart.chartArea.right - 18) : position.x;
           const y = isHorizontal ? position.y : Math.max(position.y - 12, chart.chartArea.top + 12);
+          const maxTextWidth = Math.max(...lines.map((line) => ctx.measureText(line).width));
+          const boxHeight = lines.length * 13 + 5;
+
+          if (options.backgroundColor) {
+            ctx.save();
+            ctx.fillStyle = options.backgroundColor;
+            ctx.beginPath();
+            ctx.roundRect(x - maxTextWidth / 2 - 5, y - boxHeight / 2, maxTextWidth + 10, boxHeight, 5);
+            ctx.fill();
+            ctx.restore();
+          }
 
           lines.forEach((line, lineIndex) => {
             const lineY = y + lineIndex * 13;
-            ctx.strokeText(line, x, lineY);
+            if (!options.backgroundColor) ctx.strokeText(line, x, lineY);
             ctx.fillText(line, x, lineY);
           });
         });

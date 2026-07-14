@@ -148,13 +148,41 @@ const HiddenChartRefs = ({ summary, paymentRef, rankingRef }: { summary: ReturnT
         ref={paymentRef}
         plugins={[chartValueLabels]}
         data={{ labels: summary.pagamentos.map((item) => paymentLabel(item.formaPagamento)), datasets: [{ data: summary.pagamentos.map((item) => item.valor), backgroundColor: ["#248c2c", "#00a0a4", "#176fc2"] }] }}
-        options={{ plugins: { valueLabels: { formatter: (value: number) => `${money(value)}\n${summary.totalVendido ? ((value / summary.totalVendido) * 100).toFixed(1) : "0,0"}%` } } }}
+        options={{
+          animation: false,
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            valueLabels: {
+              formatter: (value: number) => `${money(value)}\n${summary.totalVendido ? ((value / summary.totalVendido) * 100).toFixed(1) : "0,0"}%`,
+              color: "#111111",
+              strokeColor: "#ffffff",
+              backgroundColor: "rgba(255,255,255,.9)",
+              font: "800 13px Arial, sans-serif",
+            },
+          },
+        }}
       />
       <Bar
         ref={rankingRef}
         plugins={[chartValueLabels]}
         data={{ labels: top.map((item) => item.produto), datasets: [{ label: "Quantidade", data: top.map((item) => item.quantidade), backgroundColor: "#d71920" }] }}
-        options={{ indexAxis: "y", plugins: { valueLabels: { formatter: (value: number) => `${value} un.` } } }}
+        options={{
+          indexAxis: "y",
+          animation: false,
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: true },
+            valueLabels: {
+              formatter: (value: number) => `${value} un.`,
+              color: "#111111",
+              strokeColor: "#ffffff",
+              backgroundColor: "rgba(255,255,255,.9)",
+              font: "800 13px Arial, sans-serif",
+            },
+          },
+        }}
       />
     </div>
   );

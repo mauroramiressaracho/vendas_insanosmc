@@ -86,12 +86,22 @@ export const createReportPdf = (
       doc.addPage();
       y = 18;
     }
+    const chartTop = y + 6;
     doc.setFont("helvetica", "bold");
     doc.text("Gráficos", margin, y);
-    y += 6;
-    if (charts.payment) doc.addImage(charts.payment, "PNG", margin, y, 82, 62);
-    if (charts.ranking) doc.addImage(charts.ranking, "PNG", 108, y, 82, 62);
-    y += 70;
+    if (charts.payment) doc.addImage(charts.payment, "PNG", margin, chartTop, 82, 62);
+    if (charts.ranking) doc.addImage(charts.ranking, "PNG", 108, chartTop, 82, 62);
+
+    doc.setFontSize(8);
+    doc.setFont("helvetica", "bold");
+    summary.pagamentos.forEach((payment, index) => {
+      doc.text(`${paymentLabel(payment.formaPagamento)}: ${money(payment.valor)} (${payment.percentual.toFixed(1)}%)`, margin, chartTop + 66 + index * 4);
+    });
+    summary.produtos.slice(0, 5).forEach((product, index) => {
+      doc.text(`${product.produto}: ${product.quantidade} un.`, 108, chartTop + 66 + index * 4);
+    });
+    doc.setFontSize(10);
+    y = chartTop + 90;
   }
 
   autoTable(doc, {
@@ -100,6 +110,21 @@ export const createReportPdf = (
     body: [
       ...summary.produtos.map((item) => [item.produto, item.quantidade, money(item.precoMedio), money(item.total)]),
       ["TOTAL GERAL", summary.totalItens, "", money(summary.totalVendido)],
+    ],
+    margin: { left: margin, right: margin },
+  });
+
+  autoTable(doc, {
+    startY: (doc as jsPDF & { lastAutoTable: { finalY: number } }).lastAutoTable.finalY + 8,
+    head: [["Forma de pagamento", "Pedidos", "Valor recebido", "% das vendas"]],
+    body: [
+      ...summary.pagamentos.map((payment) => [
+        paymentLabel(payment.formaPagamento),
+        payment.pedidos,
+        money(payment.valor),
+        `${payment.percentual.toFixed(1)}%`,
+      ]),
+      ["TOTAL GERAL", summary.quantidadePedidos, money(summary.totalVendido), summary.totalVendido > 0 ? "100,0%" : "0,0%"],
     ],
     margin: { left: margin, right: margin },
   });

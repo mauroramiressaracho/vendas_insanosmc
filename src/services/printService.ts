@@ -3,11 +3,11 @@ import { dateTime, money, orderNumber, paymentLabel } from "../utils/format";
 
 const escapeHtml = (value: unknown) =>
   String(value ?? "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 
 const buildReceiptCopy = (order: Pedido, settings: Configuracao, copyNumber: number) => {
   const showValues = settings.mostrarValores;
@@ -50,6 +50,8 @@ export const buildReceiptHtml = (order: Pedido, settings: Configuracao) => {
   const receiptCopies = Array.from({ length: copies }, (_, index) =>
     buildReceiptCopy(order, settings, index + 1),
   ).join("");
+  const paperWidth = Number(settings.larguraMm) || 58;
+  const contentWidth = Math.max(48, paperWidth - 4);
 
   return `<!doctype html>
 <html lang="pt-BR">
@@ -58,10 +60,10 @@ export const buildReceiptHtml = (order: Pedido, settings: Configuracao) => {
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Pedido ${escapeHtml(orderNumber(order.numero))}</title>
   <style>
-    @page { size: ${settings.larguraMm}mm auto; margin: 2mm; }
+    @page { size: ${paperWidth}mm auto; margin: 2mm; }
     * { box-sizing: border-box; }
     html, body {
-      width: ${Math.max(48, settings.larguraMm - 4)}mm;
+      width: ${contentWidth}mm;
       margin: 0;
       padding: 0;
       background: #fff;
@@ -111,7 +113,7 @@ export const buildReceiptHtml = (order: Pedido, settings: Configuracao) => {
     }
     @media print {
       .no-print { display: none !important; }
-      html, body { width: ${Math.max(48, settings.larguraMm - 4)}mm; }
+      html, body { width: ${contentWidth}mm; }
     }
   </style>
 </head>
